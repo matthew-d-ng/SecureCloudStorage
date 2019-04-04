@@ -2,7 +2,22 @@ from cryptography.fernet import Fernet
 import sys
 import os
 
-def encrypt_file(filename, key):
+def encrypt_file(filename):
+    if not os.path.isfile("./key"):
+        get_key()
+    keyfile = open("key", "rb")
+    key = keyfile.read()
+    keyfile.close()
+    __encrypt_file(filename, key)
+
+
+def decrypt_file(filename):
+    keyfile = open("key", "rb")
+    key = keyfile.read()
+    keyfile.close()
+    __decrypt_file(filename, key)
+
+def __encrypt_file(filename, key):
     f = Fernet(key)
 
     plainfile = open(filename, "rb")
@@ -15,7 +30,7 @@ def encrypt_file(filename, key):
     cipherfile.close()
 
 
-def decrypt_file(filename, key):
+def __decrypt_file(filename, key):
     f = Fernet(key)
 
     cipherfile = open(filename, "rb")
@@ -47,13 +62,13 @@ def main():
         keyfile = open("key", "rb")
         key = keyfile.read()
         keyfile.close()
-        encrypt_file(sys.argv[2], key)
+        __encrypt_file(sys.argv[2], key)
 
     elif sys.argv[1] == "decrypt":
         keyfile = open("key", "rb")
         key = keyfile.read()
         keyfile.close()
-        decrypt_file(sys.argv[2], key)
+        __decrypt_file(sys.argv[2], key)
 
 
 if __name__ == "__main__":
