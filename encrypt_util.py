@@ -4,7 +4,7 @@ import os
 
 def encrypt_file(filename):
     if not os.path.isfile("./key"):
-        get_key()
+        create_key("./key")
     keyfile = open("key", "rb")
     key = keyfile.read()
     keyfile.close()
@@ -16,6 +16,7 @@ def decrypt_file(filename):
     key = keyfile.read()
     keyfile.close()
     __decrypt_file(filename, key)
+
 
 def __encrypt_file(filename, key):
     f = Fernet(key)
@@ -48,17 +49,18 @@ def __decrypt_file(filename, key):
     plainfile.close()
 
 
-def get_key():
+def create_key(write_path):
     key = Fernet.generate_key()
-    keyfile = open("key", "wb+")
+    keyfile = open(write_path, "wb+")
     keyfile.write(key)
     keyfile.close()
+    return key
 
 
 def main():
     if sys.argv[1] == "encrypt":
         if not os.path.isfile("./key"):
-            get_key()
+            create_key("./key")
         keyfile = open("key", "rb")
         key = keyfile.read()
         keyfile.close()

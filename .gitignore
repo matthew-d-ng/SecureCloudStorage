@@ -1,3 +1,4 @@
-token.pickle
 key
-credentials.json
+client_secrets.json
+secrets/*
+groups.pickle
