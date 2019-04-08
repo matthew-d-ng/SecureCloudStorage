@@ -44,9 +44,9 @@ def read_priv_key():
   return private_key
 
 
-def read_pub_key():
+def read_pub_key(path):
 
-  with open("./public/pub_key.pem" "rb") as keyfile:
+  with open(path, "rb") as keyfile:
     public_key = serialization.load_pem_public_key(
         keyfile.read(),
         backend=default_backend()
