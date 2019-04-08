@@ -1,4 +1,6 @@
-key
 client_secrets.json
 secrets/*
-groups.pickle
+public/*
+*.pickle
+secure_files/*
+__pycache__/

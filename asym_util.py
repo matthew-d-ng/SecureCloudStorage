@@ -1,6 +1,8 @@
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
 
 def new_priv_key():
 
@@ -52,9 +54,27 @@ def read_pub_key():
   return public_key
 
 
-def encrypt(key, file):
-  pass
+def encrypt(key, message):
+
+  ciphertext = key.encrypt(
+      message,
+      padding.OAEP(
+          mgf=padding.MGF1(algorithm=hashes.SHA256()),
+          algorithm=hashes.SHA256(),
+          label=None
+      )
+  )
+  return ciphertext
 
 
-def decrypt(key, file):
-  pass
+def decrypt(key, message):
+
+  plaintext = key.decrypt(
+      message,
+      padding.OAEP(
+          mgf=padding.MGF1(algorithm=hashes.SHA256()),
+          algorithm=hashes.SHA256(),
+          label=None
+      )
+  )
+  return plaintext
